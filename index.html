@@ -11,7 +11,6 @@
         /* --- বেসিক সেটআপ --- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Rajdhani', sans-serif; }
         
-        /* লং প্রেস মেনু বন্ধ রাখা */
         body { 
             background-color: #000; color: white; height: 100vh; overflow: hidden; 
             display: flex; justify-content: center; align-items: center;
@@ -22,87 +21,69 @@
         #particles { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: radial-gradient(circle, #0b0b14 0%, #000000 100%); }
 
         /* ম্যাজিক বাটন */
-        .effect-btn { position: fixed; top: 20px; right: 20px; z-index: 100; background: rgba(255, 255, 255, 0.1); border: 1px solid #0ff; color: #0ff; padding: 8px 15px; border-radius: 50px; cursor: pointer; font-family: 'Orbitron'; font-size: 0.8rem; transition: 0.3s; display: flex; align-items: center; gap: 8px; }
+        .effect-btn { position: fixed; top: 20px; right: 20px; z-index: 100; background: rgba(255, 255, 255, 0.1); border: 1px solid #0ff; color: #0ff; padding: 8px 15px; border-radius: 50px; cursor: pointer; font-family: 'Orbitron'; font-size: 0.8rem; transition: 0.3s; display: flex; align-items: center; gap: 8px; animation: fadeInDown 1s ease-out; }
+
+        /* --- ✨ নতুন অ্যানিমেশন কি-ফ্রেমস ✨ --- */
+        /* নিচ থেকে উপরে আসা */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* উপর থেকে নিচে আসা */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* জুম ইন হওয়া */
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.5); }
+            to { opacity: 1; transform: scale(1); }
+        }
 
         /* --- মেইন কার্ড --- */
-        .card-container { perspective: 1000px; width: 90%; max-width: 360px; transition: opacity 0.5s; }
+        .card-container { perspective: 1000px; width: 90%; max-width: 360px; transition: opacity 0.5s; animation: fadeInUp 1s ease-out; }
         .card { width: 100%; padding: 30px 20px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(0, 255, 255, 0.3); border-radius: 20px; text-align: center; backdrop-filter: blur(10px); box-shadow: 0 0 30px rgba(0, 255, 255, 0.15); transform-style: preserve-3d; position: relative; }
-        
         .content { transform: translateZ(30px); }
 
-        /* --- প্রোফাইল ইমেজ (FIXED SIZE) --- */
+        /* --- প্রোফাইল ইমেজ --- */
         .img-wrapper { 
-            position: relative; 
-            width: 140px !important; /* ফিক্সড সাইজ */
-            height: 140px !important; /* ফিক্সড সাইজ */
-            margin: 0 auto 15px; 
-            cursor: pointer; 
-            z-index: 50;
+            position: relative; width: 140px !important; height: 140px !important; margin: 0 auto 15px; cursor: pointer; z-index: 50;
+            /* ছবি জুম ইন হবে */
+            animation: zoomIn 1.2s ease-out;
         }
-        
-        .profile-img { 
-            width: 140px !important; 
-            height: 140px !important; 
-            border-radius: 50%; 
-            border: 3px solid #0ff; 
-            padding: 4px; 
-            box-shadow: 0 0 20px #0ff; 
-            object-fit: cover; /* ছবি চ্যাপ্টা হবে না */
-            pointer-events: none; /* মেনু ব্লক করার জন্য */
-        }
-        
+        .profile-img { width: 140px !important; height: 140px !important; border-radius: 50%; border: 3px solid #0ff; padding: 4px; box-shadow: 0 0 20px #0ff; object-fit: cover; pointer-events: none; transition: 0.5s; }
+        .img-wrapper:hover .profile-img { transform: scale(1.05) rotate(5deg); } /* হোভার এফেক্ট */
+
         /* স্ক্যানিং রিং */
-        .scan-ring {
-            position: absolute; top: -5px; left: -5px; right: -5px; bottom: -5px;
-            border-radius: 50%; border: 3px solid transparent;
-            border-top-color: #ff00de; border-right-color: #ff00de;
-            opacity: 0; transition: 0.3s; pointer-events: none;
-        }
-        .img-wrapper:active .scan-ring, .img-wrapper.pressing .scan-ring {
-            opacity: 1; animation: spin 1s linear infinite;
-        }
+        .scan-ring { position: absolute; top: -5px; left: -5px; right: -5px; bottom: -5px; border-radius: 50%; border: 3px solid transparent; border-top-color: #ff00de; border-right-color: #ff00de; opacity: 0; transition: 0.3s; pointer-events: none; }
+        .img-wrapper:active .scan-ring, .img-wrapper.pressing .scan-ring { opacity: 1; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* ক্লু */
-        .clue-text {
-            font-size: 0.8rem; color: #ff00de; letter-spacing: 1px;
-            margin-bottom: 10px; opacity: 0.8; font-weight: bold;
-            animation: pulseText 2s infinite;
-        }
-        @keyframes pulseText { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
-
-        /* নাম ও বাটন */
-        .name { font-family: 'Orbitron', sans-serif; font-size: 1.6rem; font-weight: bold; color: #fff; margin-bottom: 5px; text-shadow: 0 0 10px #0ff; }
-        .role { color: #0ff; font-size: 0.9rem; margin-bottom: 25px; letter-spacing: 2px; }
+        /* ক্লু এবং টেক্সট (ধাপে ধাপে আসবে) */
+        .clue-text { font-size: 0.8rem; color: #ff00de; letter-spacing: 1px; margin-bottom: 10px; opacity: 0.8; font-weight: bold; animation: pulseText 2s infinite; }
+        .name { font-family: 'Orbitron', sans-serif; font-size: 1.6rem; font-weight: bold; color: #fff; margin-bottom: 5px; text-shadow: 0 0 10px #0ff; animation: fadeInUp 1s ease-out 0.3s backwards; }
+        .role { color: #0ff; font-size: 0.9rem; margin-bottom: 25px; letter-spacing: 2px; animation: fadeInUp 1s ease-out 0.5s backwards; }
         
-        .btn-container { display: flex; flex-direction: column; gap: 10px; }
-        .btn { text-decoration: none; padding: 12px; background: rgba(0, 255, 255, 0.08); color: #0ff; border: 1px solid #0ff; font-weight: bold; text-transform: uppercase; border-radius: 5px; display: block; width: 100%; }
-        .socials { margin-top: 20px; display: flex; justify-content: center; gap: 20px; font-size: 1.4rem; }
-        .socials a { color: #aaa; }
+        /* বাটন গ্রুপ */
+        .btn-container { display: flex; flex-direction: column; gap: 10px; animation: fadeInUp 1s ease-out 0.7s backwards; }
+        .btn { text-decoration: none; padding: 12px; background: rgba(0, 255, 255, 0.08); color: #0ff; border: 1px solid #0ff; font-weight: bold; text-transform: uppercase; border-radius: 5px; display: block; width: 100%; transition: 0.3s; }
+        .btn:hover { background: #0ff; color: #000; box-shadow: 0 0 25px #0ff; transform: translateY(-3px); } /* হোভার বাউন্স */
+
+        /* সোশ্যাল */
+        .socials { margin-top: 20px; display: flex; justify-content: center; gap: 20px; font-size: 1.4rem; animation: fadeInUp 1s ease-out 0.9s backwards; }
+        .socials a { color: #aaa; transition: 0.3s; }
+        .socials a:hover { color: #0ff; transform: translateY(-5px) scale(1.2); } /* হোভার বাউন্স ও বড় হওয়া */
 
         /* --- সিক্রেট মোডাল --- */
-        #secretModal {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle, #2a0015 0%, #000 100%);
-            z-index: 2000; display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            opacity: 0; pointer-events: none; transition: opacity 0.5s;
-        }
+        #secretModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle, #2a0015 0%, #000 100%); z-index: 2000; display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.5s; }
         #secretModal.active { opacity: 1; pointer-events: all; }
-
-        .love-img { 
-            width: 160px !important; height: 160px !important; border-radius: 50%; 
-            border: 5px solid #ff00de; object-fit: cover; margin-bottom: 20px; 
-            pointer-events: none; /* মেনু ব্লক */
-        }
-        .love-title { font-family: 'Dancing Script', cursive; color: #ff00de; font-size: 2.5rem; margin-bottom: 10px; }
-        .love-msg { font-size: 1.1rem; color: #ffd1f9; margin-bottom: 30px; text-align: center; }
-        .back-btn { padding: 10px 25px; background: transparent; border: 2px solid #ff00de; color: #ff00de; border-radius: 30px; cursor: pointer; }
-        
-        /* হার্ট */
+        .love-img { width: 160px !important; height: 160px !important; border-radius: 50%; border: 5px solid #ff00de; object-fit: cover; margin-bottom: 20px; pointer-events: none; animation: zoomIn 1s ease-out; }
+        .love-title { font-family: 'Dancing Script', cursive; color: #ff00de; font-size: 2.5rem; margin-bottom: 10px; animation: fadeInUp 1s ease-out 0.3s backwards; }
+        .love-msg { font-size: 1.1rem; color: #ffd1f9; margin-bottom: 30px; text-align: center; animation: fadeInUp 1s ease-out 0.6s backwards; }
+        .back-btn { padding: 10px 25px; background: transparent; border: 2px solid #ff00de; color: #ff00de; border-radius: 30px; cursor: pointer; transition: 0.3s; animation: fadeInUp 1s ease-out 0.9s backwards; }
+        .back-btn:hover { background: #ff00de; color: white; box-shadow: 0 0 20px #ff00de; transform: scale(1.1); }
         .heart { position: absolute; color: #ff00de; animation: floatHeart 4s linear infinite; opacity: 0.7; }
         @keyframes floatHeart { 0% { transform: translateY(100vh) scale(0.5); opacity: 1; } 100% { transform: translateY(-10vh) scale(1.2); opacity: 0; } }
-
     </style>
 </head>
 <body oncontextmenu="return false;">
@@ -113,23 +94,18 @@
     <div class="card-container" id="mainCard">
         <div class="card">
             <div class="content">
-                
                 <div class="img-wrapper" id="scanTrigger">
                     <div class="scan-ring"></div>
                     <img src="https://i.postimg.cc/zGnDwYFP/1763804237297.png" alt="Profile" class="profile-img">
                 </div>
-
                 <p class="clue-text"><i class="fas fa-fingerprint"></i> Hold Photo to Unlock</p>
-                
                 <h1 class="name">Jahid Hassan</h1>
                 <p class="role">CREATIVE DEVELOPER</p>
-
                 <div class="btn-container">
                     <a href="about.html" class="btn">About Me</a>
                     <a href="projects.html" class="btn">My Projects</a>
                     <a href="https://github.com" target="_blank" class="btn">GitHub Profile</a>
                 </div>
-
                 <div class="socials">
                     <a href="#"><i class="fab fa-facebook"></i></a>
                     <a href="#"><i class="fab fa-instagram"></i></a>
@@ -142,96 +118,33 @@
     <div id="secretModal">
         <div style="text-align: center; z-index: 10;">
             <img src="https://i.postimg.cc/5tyLRBS2/ritu.jpg" alt="My Love" class="love-img">
-            
             <h1 class="love-title">Sadia Afrin Ritu</h1>
-            <p class="love-msg">
-                তুমি আমার সেই গোপন পৃথিবী,<br>
-                যেখানে আমি বারবার হারিয়ে যেতে চাই। ❤️
-            </p>
-            
+            <p class="love-msg">তুমি আমার সেই গোপন পৃথিবী,<br>যেখানে আমি বারবার হারিয়ে যেতে চাই। ❤️</p>
             <button class="back-btn" onclick="closeSecret()">Close Secret</button>
         </div>
     </div>
 
     <script>
-        // --- সিক্রেট লজিক (Long Press) ---
+        // (স্ক্রিপ্ট আগের মতোই আছে, কোনো পরিবর্তন নেই)
         const trigger = document.getElementById('scanTrigger');
         const secretModal = document.getElementById('secretModal');
         const mainCard = document.getElementById('mainCard');
         let pressTimer;
-
-        const startPress = (e) => {
-            if(e.cancelable) e.preventDefault(); // মেনু ব্লক
-            trigger.classList.add('pressing');
-            pressTimer = setTimeout(() => { openSecret(); }, 3000); 
-        };
-
-        const cancelPress = () => {
-            trigger.classList.remove('pressing');
-            clearTimeout(pressTimer);
-        };
-
+        const startPress = (e) => { if(e.cancelable) e.preventDefault(); trigger.classList.add('pressing'); pressTimer = setTimeout(() => { openSecret(); }, 3000); };
+        const cancelPress = () => { trigger.classList.remove('pressing'); clearTimeout(pressTimer); };
         trigger.addEventListener('touchstart', startPress, {passive: false});
         trigger.addEventListener('touchend', cancelPress);
         trigger.addEventListener('touchcancel', cancelPress);
         trigger.addEventListener('mousedown', startPress);
         trigger.addEventListener('mouseup', cancelPress);
         trigger.addEventListener('mouseleave', cancelPress);
-
-        function openSecret() {
-            mainCard.style.opacity = '0'; 
-            setTimeout(() => { secretModal.classList.add('active'); createHearts(); }, 500);
-        }
-
-        function closeSecret() {
-            secretModal.classList.remove('active');
-            setTimeout(() => { mainCard.style.opacity = '1'; }, 500);
-        }
-
-        function createHearts() {
-            setInterval(() => {
-                if(secretModal.classList.contains('active')) {
-                    const heart = document.createElement('div');
-                    heart.classList.add('heart');
-                    heart.innerHTML = '❤️';
-                    heart.style.left = Math.random() * 100 + "vw";
-                    heart.style.fontSize = Math.random() * 20 + 10 + "px";
-                    heart.style.animationDuration = Math.random() * 2 + 3 + "s";
-                    document.getElementById('secretModal').appendChild(heart);
-                    setTimeout(() => { heart.remove(); }, 5000);
-                }
-            }, 300);
-        }
-
-        // --- সাধারণ স্ক্রিপ্ট ---
+        function openSecret() { mainCard.style.opacity = '0'; setTimeout(() => { secretModal.classList.add('active'); createHearts(); }, 500); }
+        function closeSecret() { secretModal.classList.remove('active'); setTimeout(() => { mainCard.style.opacity = '1'; }, 500); }
+        function createHearts() { setInterval(() => { if(secretModal.classList.contains('active')) { const heart = document.createElement('div'); heart.classList.add('heart'); heart.innerHTML = '❤️'; heart.style.left = Math.random() * 100 + "vw"; heart.style.fontSize = Math.random() * 20 + 10 + "px"; heart.style.animationDuration = Math.random() * 2 + 3 + "s"; document.getElementById('secretModal').appendChild(heart); setTimeout(() => { heart.remove(); }, 5000); } }, 300); }
         let isMulticolor = false;
-        function toggleEffect() {
-            const btn = document.querySelector('.effect-btn');
-            isMulticolor = !isMulticolor;
-            if (isMulticolor) {
-                btn.innerHTML = '<i class="fas fa-magic"></i> MAGIC ON';
-                btn.style.background = "#ff00de"; btn.style.color = "#fff"; btn.style.borderColor = "#ff00de";
-            } else {
-                btn.innerHTML = '<i class="fas fa-magic"></i> MAGIC OFF';
-                btn.style.background = "rgba(255, 255, 255, 0.1)"; btn.style.color = "#0ff"; btn.style.borderColor = "#0ff";
-            }
-        }
-
-        const canvas = document.getElementById("particles");
-        const ctx = canvas.getContext("2d");
-        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        let particlesArray; let mouse = { x: null, y: null, radius: (canvas.height/80) * (canvas.width/80) }
-        window.addEventListener('mousemove', (event) => { mouse.x = event.x; mouse.y = event.y; });
-        class Particle {
-            constructor(x, y, directionX, directionY, size, color) { this.x = x; this.y = y; this.directionX = directionX; this.directionY = directionY; this.size = size; this.randomColor = 'hsl(' + Math.random() * 360 + ', 100%, 50%)'; }
-            draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false); if(isMulticolor) { ctx.fillStyle = this.randomColor; } else { ctx.fillStyle = '#00ffff'; } ctx.fill(); }
-            update() { if (this.x > canvas.width || this.x < 0) { this.directionX = -this.directionX; } if (this.y > canvas.height || this.y < 0) { this.directionY = -this.directionY; } let dx = mouse.x - this.x; let dy = mouse.y - this.y; let distance = Math.sqrt(dx*dx + dy*dy); if (distance < mouse.radius + this.size){ if (mouse.x < this.x && this.x < canvas.width - this.size * 10) { this.x += 3; } if (mouse.x > this.x && this.x > this.size * 10) { this.x -= 3; } if (mouse.y < this.y && this.y < canvas.height - this.size * 10) { this.y += 3; } if (mouse.y > this.y && this.y > this.size * 10) { this.y -= 3; } } this.x += this.directionX; this.y += this.directionY; this.draw(); }
-        }
-        function init() { particlesArray = []; let numberOfParticles = (canvas.height * canvas.width) / 9000; for (let i = 0; i < numberOfParticles; i++) { let size = (Math.random() * 2) + 1; let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2); let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2); let directionX = (Math.random() * 2) - 1; let directionY = (Math.random() * 2) - 1; let color = '#00ffff'; particlesArray.push(new Particle(x, y, directionX, directionY, size, color)); } }
-        function connect() { let opacityValue = 1; for (let a = 0; a < particlesArray.length; a++) { for (let b = a; b < particlesArray.length; b++) { let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y)); if (distance < (canvas.width/7) * (canvas.height/7)) { opacityValue = 1 - (distance/20000); if(isMulticolor) { ctx.strokeStyle = 'rgba(' + Math.random()*255 + ',' + Math.random()*255 + ',' + Math.random()*255 + ',' + opacityValue + ')'; } else { ctx.strokeStyle = 'rgba(0, 255, 255,' + opacityValue + ')'; } ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(particlesArray[a].x, particlesArray[a].y); ctx.lineTo(particlesArray[b].x, particlesArray[b].y); ctx.stroke(); } } } }
-        function animate() { requestAnimationFrame(animate); ctx.clearRect(0, 0, innerWidth, innerHeight); for (let i = 0; i < particlesArray.length; i++) { particlesArray[i].update(); } connect(); }
-        window.addEventListener('resize', function(){ canvas.width = innerWidth; canvas.height = innerHeight; mouse.radius = ((canvas.height/80) * (canvas.height/80)); init(); });
-        init(); animate();
+        function toggleEffect() { const btn = document.querySelector('.effect-btn'); isMulticolor = !isMulticolor; if (isMulticolor) { btn.innerHTML = '<i class="fas fa-magic"></i> MAGIC ON'; btn.style.background = "#ff00de"; btn.style.color = "#fff"; btn.style.borderColor = "#ff00de"; } else { btn.innerHTML = '<i class="fas fa-magic"></i> MAGIC OFF'; btn.style.background = "rgba(255, 255, 255, 0.1)"; btn.style.color = "#0ff"; btn.style.borderColor = "#0ff"; } }
+        const canvas = document.getElementById("particles"); const ctx = canvas.getContext("2d"); canvas.width = window.innerWidth; canvas.height = window.innerHeight; let particlesArray; let mouse = { x: null, y: null, radius: (canvas.height/80) * (canvas.width/80) }
+        window.addEventListener('mousemove', (event) => { mouse.x = event.x; mouse.y = event.y; }); class Particle { constructor(x, y, directionX, directionY, size, color) { this.x = x; this.y = y; this.directionX = directionX; this.directionY = directionY; this.size = size; this.randomColor = 'hsl(' + Math.random() * 360 + ', 100%, 50%)'; } draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false); if(isMulticolor) { ctx.fillStyle = this.randomColor; } else { ctx.fillStyle = '#00ffff'; } ctx.fill(); } update() { if (this.x > canvas.width || this.x < 0) { this.directionX = -this.directionX; } if (this.y > canvas.height || this.y < 0) { this.directionY = -this.directionY; } let dx = mouse.x - this.x; let dy = mouse.y - this.y; let distance = Math.sqrt(dx*dx + dy*dy); if (distance < mouse.radius + this.size){ if (mouse.x < this.x && this.x < canvas.width - this.size * 10) { this.x += 3; } if (mouse.x > this.x && this.x > this.size * 10) { this.x -= 3; } if (mouse.y < this.y && this.y < canvas.height - this.size * 10) { this.y += 3; } if (mouse.y > this.y && this.y > this.size * 10) { this.y -= 3; } } this.x += this.directionX; this.y += this.directionY; this.draw(); } } function init() { particlesArray = []; let numberOfParticles = (canvas.height * canvas.width) / 9000; for (let i = 0; i < numberOfParticles; i++) { let size = (Math.random() * 2) + 1; let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2); let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2); let directionX = (Math.random() * 2) - 1; let directionY = (Math.random() * 2) - 1; let color = '#00ffff'; particlesArray.push(new Particle(x, y, directionX, directionY, size, color)); } } function connect() { let opacityValue = 1; for (let a = 0; a < particlesArray.length; a++) { for (let b = a; b < particlesArray.length; b++) { let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y)); if (distance < (canvas.width/7) * (canvas.height/7)) { opacityValue = 1 - (distance/20000); if(isMulticolor) { ctx.strokeStyle = 'rgba(' + Math.random()*255 + ',' + Math.random()*255 + ',' + Math.random()*255 + ',' + opacityValue + ')'; } else { ctx.strokeStyle = 'rgba(0, 255, 255,' + opacityValue + ')'; } ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(particlesArray[a].x, particlesArray[a].y); ctx.lineTo(particlesArray[b].x, particlesArray[b].y); ctx.stroke(); } } } } function animate() { requestAnimationFrame(animate); ctx.clearRect(0, 0, innerWidth, innerHeight); for (let i = 0; i < particlesArray.length; i++) { particlesArray[i].update(); } connect(); } window.addEventListener('resize', function(){ canvas.width = innerWidth; canvas.height = innerHeight; mouse.radius = ((canvas.height/80) * (canvas.height/80)); init(); }); init(); animate();
     </script>
 </body>
 </html>
