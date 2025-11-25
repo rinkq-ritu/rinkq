@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Projects | Jahid</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- বেসিক স্টাইল --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Rajdhani', sans-serif; }
+        
+        body { 
+            background-color: #000; 
+            color: white; 
+            min-height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center;
+            padding: 40px 20px;
+            background-image: radial-gradient(circle at 50% 0%, #1a001a 0%, #000000 80%);
+            overflow-x: hidden;
+        }
+
+        /* --- টাইটেল এনিমেশন --- */
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            color: #0ff;
+            text-transform: uppercase;
+            margin-bottom: 50px;
+            text-shadow: 0 0 15px #0ff;
+            letter-spacing: 3px;
+            text-align: center;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        /* --- গ্রিড লেআউট --- */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        /* --- কার্ড ডিজাইন ও এনিমেশন --- */
+        .project-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: 0.4s;
+            position: relative;
+            overflow: hidden;
+            opacity: 0; /* শুরুতে অদৃশ্য থাকবে */
+            transform: translateY(30px); /* নিচে থাকবে */
+            animation: slideUp 0.8s ease-out forwards;
+        }
+
+        /* কার্ড হোভার এফেক্ট (গ্লো এবং বড় হওয়া) */
+        .project-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 0 40px rgba(0, 255, 255, 0.3);
+            background: rgba(0, 255, 255, 0.08);
+            border-color: #0ff;
+        }
+
+        .project-card i {
+            font-size: 3rem;
+            color: #ff00de;
+            margin-bottom: 15px;
+            transition: 0.3s;
+        }
+        .project-card:hover i { transform: scale(1.2); text-shadow: 0 0 20px #ff00de; }
+
+        .project-card h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .project-card p {
+            color: #ccc;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        /* বাটন */
+        .view-btn {
+            text-decoration: none;
+            padding: 8px 20px;
+            border: 1px solid #0ff;
+            color: #0ff;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: 0.3s;
+            display: inline-block;
+            font-size: 0.9rem;
+        }
+        .view-btn:hover {
+            background: #0ff;
+            color: #000;
+            box-shadow: 0 0 15px #0ff;
+        }
+
+        /* --- অ্যানিমেশন ডিলে (একটার পর একটা আসার জন্য) --- */
+        .project-card:nth-child(1) { animation-delay: 0.1s; }
+        .project-card:nth-child(2) { animation-delay: 0.2s; }
+        .project-card:nth-child(3) { animation-delay: 0.3s; }
+        .project-card:nth-child(4) { animation-delay: 0.4s; }
+        .project-card:nth-child(5) { animation-delay: 0.5s; }
+        .project-card:nth-child(6) { animation-delay: 0.6s; }
+        .project-card:nth-child(7) { animation-delay: 0.7s; }
+        .project-card:nth-child(8) { animation-delay: 0.8s; }
+
+        /* --- এনিমেশন কি-ফ্রেমস --- */
+        @keyframes slideUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- ব্যাক বাটন --- */
+        .back-container { margin-top: 60px; margin-bottom: 20px; animation: slideUp 1s ease-out 1s forwards; opacity: 0; }
+        .back-btn {
+            text-decoration: none;
+            padding: 12px 35px;
+            border: 2px solid #ff00de;
+            color: #ff00de;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            border-radius: 50px;
+            transition: 0.3s;
+        }
+        .back-btn:hover {
+            background: #ff00de;
+            color: #fff;
+            box-shadow: 0 0 20px #ff00de;
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>My Projects</h1>
+
+    <div class="projects-grid">
+        
+        <div class="project-card">
+            <i class="fas fa-laptop-code"></i>
+            <h2>Personal Portfolio</h2>
+            <p>একটি আধুনিক এবং রেসপন্সিভ পোর্টফোলিও ওয়েবসাইট, যেখানে সিক্রেট ফিচার এবং এনিমেশন যুক্ত আছে।</p>
+            <a href="#" class="view-btn">View Code</a>
+        </div>
+
+        <div class="project-card">
+            <i class="fas fa-heart"></i>
+            <h2>Secret Love Letter</h2>
+            <p>প্রিয় মানুষের জন্য তৈরি করা একটি বিশেষ ওয়েবসাইট, যা পাসওয়ার্ড বা ফিঙ্গারপ্রিন্ট দিয়ে আনলক হয়।</p>
+            <a href="#" class="view-btn">View Code</a>
+        </div>
+
+        <div class="project-card">
+            <i class="fas fa-user-secret"></i>
+            <h2>Hacker Terminal</h2>
+            <p>টার্মিনাল স্টাইলের একটি হ্যাকিং সিমুলেশন ওয়েবসাইট ডিজাইন, যা দেখতে সাইবার অ্যাটাকের মতো।</p>
+            <a href="#" class="view-btn">View Code</a>
+        </div>
+
+        <div class="project-card">
+            <i class="fas fa-mobile-alt"></i>
+            <h2>Virtual Smartphone</h2>
+            <p>ওয়েবের ভেতরে একটি ভার্চুয়াল মোবাইল ফোন, যেখানে ঘড়ি, ক্যালকুলেটর এবং ব্রাউজার কাজ করে।</p>
+            <a href="#" class="view-btn">View Code</a>
+        </div>
+
+        <div class="project-card">
+            <i class="fas fa-shopping-cart"></i>
+            <h2>E-Commerce Site</h2>
+            <p>অনলাইন কেনাকাটার জন্য একটি সম্পূর্ণ রেসপন্সিভ শপিং ওয়েবসাইট ডিজাইন।</p>
+            <a href="#" class="view-btn">View Code</a>
+        </div>
+
+        <div class="project-card">
+            <i class="fas fa-cloud-sun-rain"></i>
+            <h2>Weather App</h2>
+            <p>লাইভ আবহাওয়ার পূর্বাভাস দেখার জন্য একটি জাভাস্ক্রিপ্ট ভিত্তিক অ্যাপ্লিকেশন।</p>
+            <a href="#" class="view-btn">View Code</a>
+        </div>
+
+        <div class="project-card">
+            <i class="fas fa-robot"></i>
+            <h2>AI Chatbot UI</h2>
+            <p>আর্টিফিসিয়াল ইন্টেলিজেন্স বা রোবটের সাথে কথা বলার জন্য একটি চ্যাট ইন্টারফেস।</p>
+            <a href="#" class="view-btn">View Code</a>
+        </div>
+
+        <div class="project-card">
+            <i class="fas fa-gamepad"></i>
+            <h2>Gaming Dashboard</h2>
+            <p>গেমারদের জন্য নিওন স্টাইলের একটি ড্যাশবোর্ড যেখানে গেমের স্ট্যাটাস দেখা যায়।</p>
+            <a href="#" class="view-btn">View Code</a>
+        </div>
+
+    </div>
+
+    <div class="back-container">
+        <a href="index.html" class="back-btn">← Go Back Home</a>
+    </div>
+
+</body>
+</html>
