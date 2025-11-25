@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Hacked</title>
+    <style>
+        body { background-color: black; color: #0f0; font-family: 'Courier New', monospace; padding: 20px; overflow: hidden; }
+        #console { font-size: 1.2rem; line-height: 1.5; }
+        .cursor { animation: blink 1s infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
+        .back-btn { position: fixed; top: 20px; right: 20px; padding: 10px 20px; border: 1px solid #0f0; color: #0f0; text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <a href="projects.html" class="back-btn">EXIT SYSTEM</a>
+    <div id="console"></div>
+    <script>
+        const text = [
+            "Initializing connection...",
+            "Bypassing firewall...",
+            "Accessing mainframe...",
+            "Downloading secret files...",
+            "Decrypting passwords...",
+            "ACCESS GRANTED.",
+            "Welcome to Jahid's Private Server."
+        ];
+        let i = 0;
+        function typeLine() {
+            if (i < text.length) {
+                const div = document.createElement('div');
+                div.textContent = "> " + text[i];
+                document.getElementById('console').appendChild(div);
+                i++;
+                setTimeout(typeLine, Math.random() * 500 + 200);
+            } else {
+                startMatrix();
+            }
+        }
+        typeLine();
+        function startMatrix() { /* ম্যাট্রিক্স কোড এখানে যুক্ত করা যাবে */ }
+    </script>
+</body>
+</html>
