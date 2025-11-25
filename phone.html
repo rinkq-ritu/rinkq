@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Smartphone</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; user-select: none; }
+        
+        body {
+            background-color: #1a1a1a;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background-image: url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+        }
+
+        /* --- ব্যাক বাটন (প্রজেক্ট পেজে ফেরার জন্য) --- */
+        .back-btn {
+            position: absolute; top: 20px; left: 20px;
+            text-decoration: none; color: #0ff; border: 2px solid #0ff;
+            padding: 10px 20px; border-radius: 30px; font-family: 'Orbitron', sans-serif;
+            font-weight: bold; background: rgba(0,0,0,0.7); transition: 0.3s; z-index: 1000;
+        }
+        .back-btn:hover { background: #0ff; color: #000; }
+
+        /* --- ফোনের বডি --- */
+        .phone { width: 320px; height: 650px; background: #000; border-radius: 40px; border: 8px solid #333; position: relative; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
+        .notch { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 150px; height: 25px; background: #000; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; z-index: 100; }
+        .status-bar { position: absolute; top: 5px; width: 100%; padding: 0 20px; display: flex; justify-content: space-between; color: white; font-size: 12px; z-index: 90; font-weight: bold; }
+        .screen { width: 100%; height: 100%; background: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80') center/cover; position: relative; }
+
+        /* লক স্ক্রিন */
+        .lock-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); backdrop-filter: blur(5px); display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; z-index: 50; transition: 0.5s ease-in-out; }
+        .lock-time { font-size: 4rem; font-weight: 300; }
+        .lock-date { font-size: 1.2rem; margin-bottom: 200px; }
+        .swipe-text { animation: bounce 2s infinite; opacity: 0.8; font-size: 0.9rem; }
+        .lock-screen.unlocked { transform: translateY(-100%); opacity: 0; }
+
+        /* হোম স্ক্রিন */
+        .home-screen { padding-top: 60px; padding-left: 15px; padding-right: 15px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; row-gap: 30px; transition: 0.3s; }
+        .app { display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: 0.2s; }
+        .app:hover { transform: scale(1.1); }
+        .icon { width: 55px; height: 55px; border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 24px; color: white; margin-bottom: 5px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .app-name { color: white; font-size: 11px; }
+        .fb { background: #1877f2; } .yt { background: #ff0000; } .cam { background: #333; border: 1px solid #555; } .calc { background: #ff9500; } .gal { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); } .set { background: #8e8e93; } .chrome { background: white; color: #ea4335; } .files { background: #5ac8fa; }
+
+        /* অ্যাপ উইন্ডো */
+        .app-window { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 40; transform: scale(0); opacity: 0; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); overflow: hidden; display: flex; flex-direction: column; }
+        .app-window.open { transform: scale(1); opacity: 1; border-radius: 0; }
+
+        /* অ্যাপস */
+        #camera-app { background: #000; } video { width: 100%; height: 100%; object-fit: cover; } .shutter-btn { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); width: 60px; height: 60px; background: white; border-radius: 50%; border: 4px solid #ccc; cursor: pointer; }
+        #calc-app { background: #000; color: white; justify-content: flex-end; padding-bottom: 30px; } .calc-display { font-size: 3rem; text-align: right; padding: 20px; width: 100%; border-bottom: 1px solid #333; } .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 10px; } .c-btn { padding: 15px; font-size: 1.2rem; border-radius: 50px; border: none; background: #333; color: white; cursor: pointer; } .c-btn.orange { background: #ff9500; } .c-btn.light { background: #a5a5a5; color: black; }
+        #gallery-app { background: #000; overflow-y: scroll; } .gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 5px; padding: 5px; margin-top: 40px; } .gallery-img { width: 100%; height: 150px; object-fit: cover; border-radius: 5px; }
+
+        /* হোম ইন্ডিকেটর */
+        .home-indicator { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); width: 120px; height: 5px; background: white; border-radius: 10px; cursor: pointer; z-index: 200; opacity: 0.8; } .home-indicator:hover { opacity: 1; background: #ccc; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        @media (max-width: 600px) { .phone { width: 100%; height: 100vh; border-radius: 0; border: none; } }
+    </style>
+</head>
+<body>
+
+    <a href="projects.html" class="back-btn">← Back to Projects</a>
+
+    <div class="phone">
+        <div class="notch"></div>
+        <div class="status-bar"><div id="status-time">12:00</div><div><i class="fas fa-wifi"></i> <i class="fas fa-battery-full"></i></div></div>
+        <div class="screen">
+            <div class="lock-screen" id="lockScreen" onclick="unlockPhone()">
+                <div class="lock-time" id="lockTime">12:00</div>
+                <div class="lock-date" id="lockDate">Wednesday, Nov 26</div>
+                <div class="swipe-text">Click/Tap to Unlock</div>
+                <div class="home-indicator"></div>
+            </div>
+            <div class="home-screen">
+                <div class="app" onclick="openApp('camera-app')"><div class="icon cam"><i class="fas fa-camera"></i></div><div class="app-name">Camera</div></div>
+                <div class="app" onclick="openApp('calc-app')"><div class="icon calc"><i class="fas fa-calculator"></i></div><div class="app-name">Calc</div></div>
+                <div class="app" onclick="openApp('gallery-app')"><div class="icon gal"><i class="fas fa-images"></i></div><div class="app-name">Photos</div></div>
+                <a href="https://facebook.com" target="_blank" class="app" style="text-decoration: none;"><div class="icon fb"><i class="fab fa-facebook-f"></i></div><div class="app-name">Facebook</div></a>
+                <a href="https://youtube.com" target="_blank" class="app" style="text-decoration: none;"><div class="icon yt"><i class="fab fa-youtube"></i></div><div class="app-name">YouTube</div></a>
+                <a href="https://google.com" target="_blank" class="app" style="text-decoration: none;"><div class="icon chrome"><i class="fab fa-chrome"></i></div><div class="app-name">Google</div></a>
+            </div>
+            <div id="camera-app" class="app-window"><video id="video" autoplay></video><div class="shutter-btn"></div></div>
+            <div id="calc-app" class="app-window"><div class="calc-display" id="calcDisplay">0</div><div class="calc-grid"><button class="c-btn light" onclick="calcIn('C')">C</button><button class="c-btn light" onclick="calcIn('/')">/</button><button class="c-btn light" onclick="calcIn('*')">x</button><button class="c-btn light" onclick="calcIn('BS')">←</button><button class="c-btn" onclick="calcIn('7')">7</button><button class="c-btn" onclick="calcIn('8')">8</button><button class="c-btn" onclick="calcIn('9')">9</button><button class="c-btn orange" onclick="calcIn('-')">-</button><button class="c-btn" onclick="calcIn('4')">4</button><button class="c-btn" onclick="calcIn('5')">5</button><button class="c-btn" onclick="calcIn('6')">6</button><button class="c-btn orange" onclick="calcIn('+')">+</button><button class="c-btn" onclick="calcIn('1')">1</button><button class="c-btn" onclick="calcIn('2')">2</button><button class="c-btn" onclick="calcIn('3')">3</button><button class="c-btn orange" onclick="calcIn('=')">=</button><button class="c-btn" style="grid-column: span 2;" onclick="calcIn('0')">0</button><button class="c-btn" onclick="calcIn('.')">.</button></div></div>
+            <div id="gallery-app" class="app-window"><h2 style="color:white; text-align:center; margin-top:40px;">My Photos</h2><div class="gallery-grid"><img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb" class="gallery-img"><img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e" class="gallery-img"><img src="https://images.unsplash.com/photo-1472214103451-9374bd1c798e" class="gallery-img"><img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05" class="gallery-img"></div></div>
+        </div>
+        <div class="home-indicator" onclick="closeAllApps()"></div>
+    </div>
+
+    <script>
+        function updateTime() { const now = new Date(); let hours = now.getHours(); let minutes = now.getMinutes(); minutes = minutes < 10 ? '0' + minutes : minutes; const timeString = hours + ':' + minutes; document.getElementById('status-time').innerText = timeString; document.getElementById('lockTime').innerText = timeString; const options = { weekday: 'long', month: 'short', day: 'numeric' }; document.getElementById('lockDate').innerText = now.toLocaleDateString('en-US', options); } setInterval(updateTime, 1000); updateTime();
+        function unlockPhone() { document.getElementById('lockScreen').classList.add('unlocked'); }
+        function openApp(appId) { document.getElementById(appId).classList.add('open'); if(appId === 'camera-app') { startCamera(); } }
+        function closeAllApps() { document.querySelectorAll('.app-window').forEach(app => { app.classList.remove('open'); }); stopCamera(); }
+        const video = document.getElementById('video'); let stream = null;
+        async function startCamera() { try { stream = await navigator.mediaDevices.getUserMedia({ video: true }); video.srcObject = stream; } catch (err) { console.error("Error:", err); alert("Camera not supported or denied!"); } }
+        function stopCamera() { if (stream) { stream.getTracks().forEach(track => track.stop()); video.srcObject = null; } }
+        let calcString = ""; function calcIn(val) { const display = document.getElementById('calcDisplay'); if (val === 'C') { calcString = ""; display.innerText = "0"; } else if (val === 'BS') { calcString = calcString.slice(0, -1); display.innerText = calcString || "0"; } else if (val === '=') { try { display.innerText = eval(calcString); calcString = display.innerText; } catch { display.innerText = "Error"; calcString = ""; } } else { calcString += val; display.innerText = calcString; } }
+    </script>
+</body>
+</html>
