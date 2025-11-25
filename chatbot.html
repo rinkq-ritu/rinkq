@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chatbot</title>
+    <style>
+        body { background-color: #121212; color: white; font-family: sans-serif; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .chat-box { width: 90%; max-width: 400px; height: 500px; background: #1e1e1e; border-radius: 15px; display: flex; flex-direction: column; overflow: hidden; border: 1px solid #333; }
+        .header { background: #007bff; padding: 15px; text-align: center; font-weight: bold; }
+        .messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .msg { padding: 10px 15px; border-radius: 20px; max-width: 70%; font-size: 0.9rem; }
+        .user { background: #007bff; align-self: flex-end; }
+        .bot { background: #333; align-self: flex-start; }
+        .input-area { display: flex; padding: 10px; background: #252525; }
+        input { flex: 1; padding: 10px; border-radius: 20px; border: none; outline: none; }
+        button { margin-left: 10px; padding: 10px 20px; border-radius: 20px; border: none; background: #007bff; color: white; cursor: pointer; }
+        .back-btn { margin-top: 20px; color: #007bff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="chat-box">
+        <div class="header">AI Assistant</div>
+        <div class="messages" id="chat">
+            <div class="msg bot">Hello! How can I help you today?</div>
+        </div>
+        <div class="input-area">
+            <input type="text" id="msgInput" placeholder="Type a message...">
+            <button onclick="sendMsg()">Send</button>
+        </div>
+    </div>
+    <a href="projects.html" class="back-btn">Back to Projects</a>
+
+    <script>
+        function sendMsg() {
+            const input = document.getElementById('msgInput');
+            const chat = document.getElementById('chat');
+            if(input.value === "") return;
+
+            // User Message
+            chat.innerHTML += `<div class="msg user">${input.value}</div>`;
+            chat.scrollTop = chat.scrollHeight;
+            
+            // Auto Reply
+            setTimeout(() => {
+                const replies = ["That's interesting!", "Tell me more.", "I am a simple AI demo.", "Nice to meet you!"];
+                const reply = replies[Math.floor(Math.random() * replies.length)];
+                chat.innerHTML += `<div class="msg bot">${reply}</div>`;
+                chat.scrollTop = chat.scrollHeight;
+            }, 1000);
+            
+            input.value = "";
+        }
+    </script>
+</body>
+</html>
